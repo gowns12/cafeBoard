@@ -3,8 +3,12 @@ package board.Post.service;
 import board.Post.dto.PostRequestDto;
 import board.Post.dto.PostResponseDto;
 import board.Post.entity.Post;
+import board.Post.entity.PostHashTag;
 import board.Post.repository.PostRepository;
 import board.comment.Repository.CommentRepository;
+import board.hashtag.HashTag;
+import board.hashtag.HashTagRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +19,12 @@ import java.util.List;
 public class PostService {
     PostRepository postRepository;
     CommentRepository commentRepository;
+    HashTagRepository hashTagRepository;
 
-    public PostService(PostRepository postRepository, CommentRepository commentRepository) {
+    public PostService(PostRepository postRepository, CommentRepository commentRepository, HashTagRepository hashTagRepository) {
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
+        this.hashTagRepository = hashTagRepository;
     }
 
     public List<PostResponseDto> readAll(Long boardId) {
@@ -45,7 +51,14 @@ public class PostService {
     }
 
     public void create(PostRequestDto postRequestDto) {
-        postRepository.save(new Post(postRequestDto.title(),postRequestDto.content(), LocalDateTime.now(),postRequestDto.boardId()));
+        Post post = new Post(postRequestDto.title(),postRequestDto.content(), LocalDateTime.now(),postRequestDto.boardId());
+        List<PostHashTag> tags = postRequestDto.hasTags().stream()
+                        .map(str -> {
+                                    HashTag hashTag = hashTagRepository.findByName(str).orElseGet(() -> new HashTag(str));
+                                    return new PostHashTag(post,hashTag.getId());
+                                })
+                                .toList();
+        postRepository.save(new Post(postRequestDto.title(),postRequestDto.content(), LocalDateTime.now(),postRequestDto.boardId(),tags));
     }
 
     public void changeIsVisible(Long postId) {
@@ -67,5 +80,17 @@ public class PostService {
                     ))
                     .toList();
 
+    }
+
+    @Transactional
+    public void update(@Valid PostRequestDto postRequestDto) {
+         Post post = postRepository.findById(postRequestDto.id()).orElseThrow();
+        List<PostHashTag> tags = postRequestDto.hasTags().stream()
+                .map(str -> {
+                    HashTag hashTag = hashTagRepository.findByName(str).orElseGet(() -> new HashTag(str));
+                    return new PostHashTag(post,hashTag.getId());
+                })
+                .toList();
+         post.update(postRequestDto,tags);
     }
 }

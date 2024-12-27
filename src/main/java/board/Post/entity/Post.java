@@ -1,11 +1,12 @@
 package board.Post.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import board.Post.dto.PostRequestDto;
+import board.hashtag.HashTag;
+import jakarta.persistence.*;
+import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -17,7 +18,11 @@ public class Post {
     private LocalDateTime createdAt;
     private Long boardId;
     private int viewCount = 0;
-    private boolean isVisible=true;
+    private boolean isVisible = true;
+    private boolean recommend = false;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostHashTag> tags;
 
     protected Post() {
     }
@@ -27,6 +32,14 @@ public class Post {
         this.content = content;
         this.createdAt = createdAt;
         this.boardId = boardId;
+    }
+
+    public Post(String title, String content, LocalDateTime createdAt, Long boardId, List<PostHashTag> tags) {
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.boardId = boardId;
+        this.tags = tags;
     }
 
     public Long getId() {
@@ -61,7 +74,16 @@ public class Post {
         this.viewCount++;
     }
 
-    public void changeIsVisible(){
+    public void changeIsVisible() {
         this.isVisible = !isVisible;
+    }
+
+
+    public void update(@Valid PostRequestDto postRequestDto, List<PostHashTag> tags) {
+        this.title = postRequestDto.title();
+        this.content = postRequestDto.content();
+        this.boardId = postRequestDto.boardId();
+        this.tags = tags;
+
     }
 }

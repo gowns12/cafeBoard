@@ -32,6 +32,11 @@ public class PostController {
         postService.create(postRequestDto);
     }
 
+    @PutMapping("/posts")
+    void updatePost(@Valid@RequestBody PostRequestDto postRequestDto){
+        postService.update(postRequestDto);
+    }
+
     @PatchMapping("/post/{postId}/changeisvisible")
     void changeIsVisible(@PathVariable Long postId){
         postService.changeIsVisible(postId);
