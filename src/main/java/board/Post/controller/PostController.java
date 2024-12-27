@@ -1,5 +1,8 @@
-package board.Post;
+package board.Post.controller;
 
+import board.Post.service.PostService;
+import board.Post.dto.PostRequestDto;
+import board.Post.dto.PostResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,4 +30,5 @@ public class PostController {
     void createPost(@Valid@RequestBody PostRequestDto postRequestDto){
         postService.create(postRequestDto);
     }
+
 }

@@ -1,4 +1,4 @@
-package board.comment.Controller;
+package board.comment.controller;
 
 import board.comment.Service.CommentService;
 import board.comment.dto.CommentRequestDto;

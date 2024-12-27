@@ -1,4 +1,4 @@
-package board.comment;
+package board.comment.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,5 +1,9 @@
-package board.board;
+package board.board.serice;
 
+import board.board.dto.BoardRequestDto;
+import board.board.dto.BoardResponseDto;
+import board.board.entity.Board;
+import board.board.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

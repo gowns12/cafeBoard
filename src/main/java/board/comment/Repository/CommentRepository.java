@@ -1,7 +1,6 @@
 package board.comment.Repository;
 
-import board.Post.Post;
-import board.comment.Comment;
+import board.comment.Entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

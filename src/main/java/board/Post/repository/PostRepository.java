@@ -1,5 +1,6 @@
-package board.Post;
+package board.Post.repository;
 
+import board.Post.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

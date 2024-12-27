@@ -1,9 +1,8 @@
-package board.Post;
+package board.Post.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +15,7 @@ public class Post {
     private String content;
     private LocalDateTime createdAt;
     private Long boardId;
+    private int viewCount=0;
 
     protected Post() {
     }
@@ -45,5 +45,13 @@ public class Post {
 
     public Long getBoardId() {
         return boardId;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void ViewCountIncrease() {
+        this.viewCount++;
     }
 }

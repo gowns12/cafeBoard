@@ -1,4 +1,4 @@
-package board.board;
+package board.board.dto;
 
 import jakarta.validation.constraints.Size;
 

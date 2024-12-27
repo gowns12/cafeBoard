@@ -1,6 +1,4 @@
-package board.board;
-
-import jakarta.validation.constraints.Size;
+package board.board.dto;
 
 public record BoardResponseDto(
         Long id,

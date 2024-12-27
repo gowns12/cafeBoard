@@ -1,6 +1,11 @@
-package board.Post;
+package board.Post.service;
 
+import board.Post.dto.PostRequestDto;
+import board.Post.dto.PostResponseDto;
+import board.Post.entity.Post;
+import board.Post.repository.PostRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,15 +25,18 @@ public class PostService {
                         o.getTitle(),
                         o.getContent(),
                         o.getCreatedAt(),
-                        o.getBoardId()
+                        o.getBoardId(),
+                        o.getViewCount()
                 ))
                 .toList();
     }
 
+    @Transactional
     public PostResponseDto read(Long postId) {
-        Post post = postRepository.findById(postId).orElse(null);
-        assert post != null;
-        return new PostResponseDto(postId,post.getTitle(), post.getContent(), post.getCreatedAt(),post.getBoardId());
+        Post post = postRepository.findById(postId)
+                .orElseThrow(()->new IllegalArgumentException("Post not found for id: " + postId));
+        post.ViewCountIncrease();
+        return new PostResponseDto(postId,post.getTitle(), post.getContent(), post.getCreatedAt(),post.getBoardId(),post.getViewCount());
     }
 
     public void create(PostRequestDto postRequestDto) {

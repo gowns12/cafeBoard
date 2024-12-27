@@ -1,5 +1,8 @@
-package board.board;
+package board.board.controller;
 
+import board.board.serice.BoardService;
+import board.board.dto.BoardRequestDto;
+import board.board.dto.BoardResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

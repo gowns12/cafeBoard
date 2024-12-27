@@ -1,6 +1,6 @@
 package board.comment.Service;
 
-import board.comment.Comment;
+import board.comment.Entity.Comment;
 import board.comment.Repository.CommentRepository;
 import board.comment.dto.CommentRequestDto;
 import board.comment.dto.CommentResponseDto;
