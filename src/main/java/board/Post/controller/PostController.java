@@ -1,5 +1,6 @@
 package board.Post.controller;
 
+import board.Post.entity.Post;
 import board.Post.service.PostService;
 import board.Post.dto.PostRequestDto;
 import board.Post.dto.PostResponseDto;
@@ -31,4 +32,13 @@ public class PostController {
         postService.create(postRequestDto);
     }
 
+    @PatchMapping("/post/{postId}/changeisvisible")
+    void changeIsVisible(@PathVariable Long postId){
+        postService.changeIsVisible(postId);
+    }
+
+    @GetMapping("/post/search")
+    List<PostResponseDto> searchPost(@RequestParam String title){
+        return postService.searchPost(title);
+    }
 }

@@ -1,10 +1,13 @@
 package board.comment.Service;
 
+import board.Post.entity.Post;
+import board.Post.repository.PostRepository;
 import board.comment.Entity.Comment;
 import board.comment.Repository.CommentRepository;
 import board.comment.dto.CommentRequestDto;
 import board.comment.dto.CommentResponseDto;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,11 +16,14 @@ import java.util.List;
 public class CommentService {
 
     CommentRepository commentRepository;
+    PostRepository postRepository;
 
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, PostRepository postRepository) {
         this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
     }
 
+    @Transactional
     public void create(CommentRequestDto commentRequestDto) {
         commentRepository.save(new Comment(commentRequestDto.content(), commentRequestDto.author(), LocalDateTime.now(),commentRequestDto.postId()));
     }

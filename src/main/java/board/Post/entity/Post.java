@@ -2,6 +2,7 @@ package board.Post.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
@@ -9,13 +10,14 @@ import java.time.LocalDateTime;
 @Entity
 public class Post {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private Long boardId;
-    private int viewCount=0;
+    private int viewCount = 0;
+    private boolean isVisible=true;
 
     protected Post() {
     }
@@ -51,7 +53,15 @@ public class Post {
         return viewCount;
     }
 
+    public boolean isVisible() {
+        return isVisible;
+    }
+
     public void ViewCountIncrease() {
         this.viewCount++;
+    }
+
+    public void changeIsVisible(){
+        this.isVisible = !isVisible;
     }
 }

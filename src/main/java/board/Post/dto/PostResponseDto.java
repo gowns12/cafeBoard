@@ -8,6 +8,7 @@ public record PostResponseDto(
         String content,
         LocalDateTime createdAt,
         Long boardId,
-        int viewCount
+        int viewCount,
+        int commentCount
 ) {
 }
