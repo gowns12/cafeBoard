@@ -14,4 +14,6 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     List<Post> findAllByTitle(String title);
 
     List<Post> findByIsVisible(boolean isvisible);
+
+    List<Post>
 }

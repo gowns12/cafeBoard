@@ -9,6 +9,7 @@ public record PostResponseDto(
         LocalDateTime createdAt,
         Long boardId,
         int viewCount,
-        int commentCount
+        int commentCount,
+        int recommendCount
 ) {
 }

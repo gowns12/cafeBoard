@@ -1,15 +1,22 @@
 package board.Post.entity;
 
 import board.Post.dto.PostRequestDto;
-import board.hashtag.HashTag;
+import board.Post.recommend.Recommend;
+import board.Post.recommend.RecommendId;
+import board.User.UserInfo;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import lombok.Data;
+
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +26,11 @@ public class Post {
     private Long boardId;
     private int viewCount = 0;
     private boolean isVisible = true;
-    private boolean recommend = false;
+    @OneToMany(mappedBy = "id.post")
+    private List<Recommend> recommends = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostHashTag> tags;
+    private List<PostHashTag> tags = new ArrayList<>();
 
     protected Post() {
     }
@@ -42,29 +50,6 @@ public class Post {
         this.tags = tags;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public Long getBoardId() {
-        return boardId;
-    }
-
-    public int getViewCount() {
-        return viewCount;
-    }
 
     public boolean isVisible() {
         return isVisible;
@@ -86,4 +71,9 @@ public class Post {
         this.tags = tags;
 
     }
+
+    public void recommend(UserInfo userInfo) {
+        recommends.add(new Recommend(new RecommendId(userInfo, this)));
+    }
 }
+

@@ -1,9 +1,9 @@
 package board.Post.controller;
 
-import board.Post.entity.Post;
 import board.Post.service.PostService;
 import board.Post.dto.PostRequestDto;
 import board.Post.dto.PostResponseDto;
+import board.User.UserInfo;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,13 +37,23 @@ public class PostController {
         postService.update(postRequestDto);
     }
 
-    @PatchMapping("/post/{postId}/changeisvisible")
+    @PatchMapping("/posts/{postId}/changeisvisible")
     void changeIsVisible(@PathVariable Long postId){
         postService.changeIsVisible(postId);
     }
 
-    @GetMapping("/post/search")
+    @GetMapping("/posts/search")
     List<PostResponseDto> searchPost(@RequestParam String title){
         return postService.searchPost(title);
+    }
+
+    @PatchMapping("/posts/{postId}/recommend")
+    void recommendPost(@RequestBody@Valid UserInfo userInfo, @PathVariable Long postId){
+        postService.recommend(userInfo, postId);
+    }
+
+    @GetMapping("/posts/sorted")
+    List<PostResponseDto> sortPosts(@RequestParam String orderby){
+        postService.sort();
     }
 }
