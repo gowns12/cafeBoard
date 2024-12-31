@@ -4,6 +4,7 @@ import board.Post.service.PostService;
 import board.Post.dto.PostRequestDto;
 import board.Post.dto.PostResponseDto;
 import board.User.UserInfo;
+import board.User.UserRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +33,9 @@ public class PostController {
         postService.create(postRequestDto);
     }
 
-    @PutMapping("/posts")
-    void updatePost(@Valid@RequestBody PostRequestDto postRequestDto){
-        postService.update(postRequestDto);
+    @PutMapping("/posts/{postid}")
+    void updatePost(@Valid@RequestBody PostRequestDto postRequestDto,@PathVariable Long postid){
+        postService.update(postRequestDto, postid);
     }
 
     @PatchMapping("/posts/{postId}/changeisvisible")
@@ -48,12 +49,12 @@ public class PostController {
     }
 
     @PatchMapping("/posts/{postId}/recommend")
-    void recommendPost(@RequestBody@Valid UserInfo userInfo, @PathVariable Long postId){
-        postService.recommend(userInfo, postId);
+    void recommendPost(@RequestBody@Valid UserRequest userRequest, @PathVariable Long postId){
+        postService.recommend(userRequest, postId);
     }
 
     @GetMapping("/posts/sorted")
-    List<PostResponseDto> sortPosts(@RequestParam String orderby){
-        postService.sort();
+    List<PostSortListResponse> sortPosts(@RequestParam(required = false) String orderby){
+        return postService.sort(orderby);
     }
 }

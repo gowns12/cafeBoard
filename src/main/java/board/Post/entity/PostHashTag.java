@@ -1,7 +1,12 @@
 package board.Post.entity;
 
 import jakarta.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 public class PostHashTag {
     @Id
@@ -11,31 +16,9 @@ public class PostHashTag {
     private Post post;
     private Long HashTagId;
 
-    public PostHashTag() {
-    }
-
     public PostHashTag(Post post, Long hashTagId) {
         this.post = post;
         HashTagId = hashTagId;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public Long getHashTagId() {
-        return HashTagId;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public void setHashTagId(Long hashTagId) {
-        HashTagId = hashTagId;
-    }
 }

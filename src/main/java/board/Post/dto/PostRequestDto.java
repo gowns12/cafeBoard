@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public record PostRequestDto(
-        Long id,
         @Size(min = 1,max = 20)
         String title,
         @Size(min = 1,max = 300)

@@ -24,7 +24,7 @@ public class Post {
     private String content;
     private LocalDateTime createdAt;
     private Long boardId;
-    private int viewCount = 0;
+    private Integer viewCount = 0;
     private boolean isVisible = true;
     @OneToMany(mappedBy = "id.post")
     private List<Recommend> recommends = new ArrayList<>();
@@ -68,12 +68,17 @@ public class Post {
         this.title = postRequestDto.title();
         this.content = postRequestDto.content();
         this.boardId = postRequestDto.boardId();
-        this.tags = tags;
+        this.tags.clear();
+        this.tags.addAll(tags);
 
     }
 
     public void recommend(UserInfo userInfo) {
         recommends.add(new Recommend(new RecommendId(userInfo, this)));
+    }
+
+    public void addAllTags(List<PostHashTag> postHashTags) {
+        tags.addAll(postHashTags);
     }
 }
 
