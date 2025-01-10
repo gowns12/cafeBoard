@@ -1,9 +1,9 @@
 package board.Post.controller;
 
+import board.Post.dto.PostSortListResponse;
 import board.Post.service.PostService;
 import board.Post.dto.PostRequestDto;
 import board.Post.dto.PostResponseDto;
-import board.User.UserInfo;
 import board.User.UserRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;

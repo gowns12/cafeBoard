@@ -1,6 +1,6 @@
 package board.Post.service;
 
-import board.Post.controller.PostSortListResponse;
+import board.Post.dto.PostSortListResponse;
 import board.Post.dto.PostRequestDto;
 import board.Post.dto.PostResponseDto;
 import board.Post.entity.Post;
@@ -8,7 +8,6 @@ import board.Post.entity.PostHashTag;
 import board.Post.recommend.Recommend;
 import board.Post.recommend.RecommendId;
 import board.Post.recommend.RecommendRepository;
-import board.Post.repository.PostHashRepository;
 import board.Post.repository.PostRepository;
 import board.User.UserInfo;
 import board.User.UserInfoRepository;
@@ -57,7 +56,7 @@ public class PostService {
                 .toList();
     }
 
-    @Transactional
+    @Transactional//조회 수 증가 데이터베이스 반영을 위해 트랜잭셔널 추가
     public PostResponseDto read(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("Post not found for id: " + postId));
@@ -138,9 +137,12 @@ public class PostService {
         UserInfo userInfo = userInfoRepository.findById(userRequest.id()).orElseThrow(()->new IllegalArgumentException("유저가 존재하지 않습니다."));
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         if (recommendRepository.findById(new RecommendId(userInfo, post)).isPresent()) {
-            post.getRecommends().remove(recommendRepository.findById(new RecommendId(userInfo, post)).orElseThrow());
+            Recommend recommend = recommendRepository.findById(new RecommendId(userInfo, post)).orElseThrow();
+            recommendRepository.delete(recommend);
+            post.getRecommends().remove(recommend);
         } else {
-            post.recommend(userInfo);
+            Recommend r = new Recommend();
+            post.recommend(r);
         }
     }
 

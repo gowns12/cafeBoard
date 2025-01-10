@@ -1,4 +1,4 @@
-package board.Post.controller;
+package board.Post.dto;
 
 public record PostSortListResponse(
         Long id,

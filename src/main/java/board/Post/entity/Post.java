@@ -26,7 +26,7 @@ public class Post {
     private Long boardId;
     private Integer viewCount = 0;
     private boolean isVisible = true;
-    @OneToMany(mappedBy = "id.post")
+    @OneToMany(mappedBy = "id.post",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Recommend> recommends = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -73,8 +73,8 @@ public class Post {
 
     }
 
-    public void recommend(UserInfo userInfo) {
-        recommends.add(new Recommend(new RecommendId(userInfo, this)));
+    public void recommend(Recommend recommend) {
+        recommends.add(recommend);
     }
 
     public void addAllTags(List<PostHashTag> postHashTags) {

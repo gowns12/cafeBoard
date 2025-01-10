@@ -15,7 +15,7 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/Comments")
+    @PostMapping("/comments")
     void createComments(@RequestBody CommentRequestDto commentRequestDto){
         commentService.create(commentRequestDto);
     }
